@@ -7,7 +7,7 @@ An AI community guardian for crypto Telegram groups. It checks token contracts f
 - python-telegram-bot (v21+, async)
 - httpx for API calls
 - Free by default: risk summaries use transparent rules, no paid API needed
-- Optional LLM (free tier, e.g. Groq) can be added later via LLM_API_KEY in .env
+- Q&A uses keyword matching against knowledge/project.md (free, no LLM)
 - SQLite for logs
 - python-dotenv for config
 

@@ -7,6 +7,9 @@ from dataclasses import dataclass
 
 from dotenv import load_dotenv
 
+# Used when ALLOWED_DOMAINS is not set (e.g. in Codespaces without a .env file).
+DEFAULT_ALLOWED_DOMAINS = "dexscreener.com,solscan.io,x.com,twitter.com,rugcheck.xyz"
+
 
 def _split_csv(value: str | None) -> tuple[str, ...]:
     """Split a comma-separated string into a tuple of trimmed, non-empty items."""
@@ -20,12 +23,10 @@ class Config:
     """Runtime settings for the bot."""
 
     telegram_bot_token: str
-    llm_provider: str
-    anthropic_api_key: str
-    openai_api_key: str
     admin_usernames: tuple[str, ...]
     allowed_domains: tuple[str, ...]
     telegram_proxy_url: str = ""
+    db_path: str = "guardian.db"
 
 
 def load_config(env: dict[str, str] | None = None) -> Config:
@@ -44,10 +45,10 @@ def load_config(env: dict[str, str] | None = None) -> Config:
 
     return Config(
         telegram_bot_token=token,
-        llm_provider=env.get("LLM_PROVIDER", "anthropic").strip().lower(),
-        anthropic_api_key=env.get("ANTHROPIC_API_KEY", "").strip(),
-        openai_api_key=env.get("OPENAI_API_KEY", "").strip(),
         admin_usernames=tuple(u.lstrip("@").lower() for u in _split_csv(env.get("ADMIN_USERNAMES"))),
-        allowed_domains=tuple(d.lower() for d in _split_csv(env.get("ALLOWED_DOMAINS"))),
+        allowed_domains=tuple(
+            d.lower() for d in _split_csv(env.get("ALLOWED_DOMAINS") or DEFAULT_ALLOWED_DOMAINS)
+        ),
         telegram_proxy_url=env.get("TELEGRAM_PROXY_URL", "").strip(),
+        db_path=env.get("DB_PATH", "").strip() or "guardian.db",
     )

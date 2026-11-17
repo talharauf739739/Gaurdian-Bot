@@ -8,7 +8,6 @@ app/
   contract_check.py  # DexScreener + RugCheck + rule-based risk summary
   qa.py            # answers from knowledge/project.md
   scam_filter.py   # link and impersonation checks
-  llm.py           # one wrapper for the LLM provider
   storage.py       # SQLite logging
 knowledge/
   project.md       # FAQ for the demo token
@@ -21,11 +20,10 @@ README.md
 ## .env.example
 ```
 TELEGRAM_BOT_TOKEN=
-LLM_PROVIDER=anthropic
-ANTHROPIC_API_KEY=
-OPENAI_API_KEY=
 ADMIN_USERNAMES=admin1,admin2
-ALLOWED_DOMAINS=dexscreener.com,solscan.io,x.com
+ALLOWED_DOMAINS=dexscreener.com,solscan.io,x.com,twitter.com,rugcheck.xyz
+TELEGRAM_PROXY_URL=
+DB_PATH=guardian.db
 ```
 
 ## Milestone 1: bot skeleton
@@ -43,8 +41,8 @@ ALLOWED_DOMAINS=dexscreener.com,solscan.io,x.com
 
 ## Milestone 3: Q&A from a knowledge file
 - Load knowledge/project.md (token name, supply, roadmap, links, team, FAQs).
-- When the bot is mentioned or a message ends with "?", answer only from that file.
-- If the answer is not in the file, say so and tag an admin.
+- When the bot is mentioned or a message ends with "?", answer only from that file (free keyword matching, no LLM).
+- If the answer is not in the file, say so and tag an admin. Plain "?" messages unrelated to the project are ignored to keep the chat quiet; mentioning the bot always gets a reply.
 - Done when: it answers 5 test questions correctly and refuses one it cannot answer.
 
 ## Milestone 4: scam filter
