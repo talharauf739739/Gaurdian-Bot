@@ -13,6 +13,8 @@ from app.contract_check import check_contract, find_solana_address
 
 logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s: %(message)s", level=logging.INFO)
 logger = logging.getLogger("guardian_bot")
+# httpx logs every request URL at INFO, and Telegram URLs contain the bot token.
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 START_TEXT = (
     "Hi, I'm Guardian Bot. I keep this group safe.\n"
