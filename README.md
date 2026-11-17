@@ -150,6 +150,12 @@ Run the tests with `pytest`.
 
 ---
 
+## 📄 License
+
+[MIT](LICENSE): free to use, modify and share.
+
+---
+
 ## 📬 Want this for your community?
 
 Guardian Bot can be customized for your project: your FAQ, your rules, other chains (Base, BNB, Ethereum), and 24/7 hosting.
