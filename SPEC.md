@@ -5,7 +5,7 @@
 app/
   main.py          # bot startup, handler registration
   config.py        # loads .env
-  contract_check.py  # DexScreener + RugCheck + LLM summary
+  contract_check.py  # DexScreener + RugCheck + rule-based risk summary
   qa.py            # answers from knowledge/project.md
   scam_filter.py   # link and impersonation checks
   llm.py           # one wrapper for the LLM provider
@@ -37,7 +37,8 @@ ALLOWED_DOMAINS=dexscreener.com,solscan.io,x.com
 - Detect a Solana address (base58, 32 to 44 chars) in any message, or /check <address>.
 - Fetch DexScreener: price, liquidity, 24h volume, market cap, pair age.
 - Fetch RugCheck report: mint authority, freeze authority, top holder share, LP lock, risk flags.
-- Send both to the LLM to write a short summary: 5 lines max, a risk level (Low, Medium, High), and the top 3 reasons.
+- Score both with fixed rules (free, no LLM) and write a short summary: 5 lines max, a risk level (Low, Medium, High), and the top 3 reasons.
+- Rules: mint/freeze authority active, holder concentration, RugCheck danger flags, liquidity, LP lock on small pools, pair age, market cap. Score 0-2 Low, 3-5 Medium, 6+ High.
 - Done when: posting a real contract returns a clean summary in under 10 seconds.
 
 ## Milestone 3: Q&A from a knowledge file

@@ -31,3 +31,8 @@ def test_build_application_registers_commands() -> None:
     app = build_application("123456:TEST-token")
     commands = {c for h in app.handlers[0] for c in getattr(h, "commands", ())}
     assert {"start", "help"} <= commands
+
+
+def test_build_application_with_proxy() -> None:
+    app = build_application("123456:TEST-token", "socks5://127.0.0.1:1080")
+    assert app.bot is not None

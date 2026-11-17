@@ -25,6 +25,7 @@ class Config:
     openai_api_key: str
     admin_usernames: tuple[str, ...]
     allowed_domains: tuple[str, ...]
+    telegram_proxy_url: str = ""
 
 
 def load_config(env: dict[str, str] | None = None) -> Config:
@@ -48,4 +49,5 @@ def load_config(env: dict[str, str] | None = None) -> Config:
         openai_api_key=env.get("OPENAI_API_KEY", "").strip(),
         admin_usernames=tuple(u.lstrip("@").lower() for u in _split_csv(env.get("ADMIN_USERNAMES"))),
         allowed_domains=tuple(d.lower() for d in _split_csv(env.get("ALLOWED_DOMAINS"))),
+        telegram_proxy_url=env.get("TELEGRAM_PROXY_URL", "").strip(),
     )
